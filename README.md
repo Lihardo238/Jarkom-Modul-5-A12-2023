@@ -1,5 +1,10 @@
 # Jarkom-Modul-5-A12-2023
 
+# **Anggota Kelompok**
+
+| Nama                      | NRP        | Kelas                |
+| ------------------------- | ---------- | ----------------     |
+| Lihardo Marson Purba                   | 5025211238 | Jaringan Komputer A  |
 
 # Subnetting
 ![Ss Soal1](image/subnetting.png)
