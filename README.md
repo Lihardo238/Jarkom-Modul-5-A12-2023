@@ -1,5 +1,15 @@
 # Jarkom-Modul-5-A12-2023
 
+
+# Subnetting
+![Ss Soal1](image/subnetting.png)
+
+# VLSM
+![Ss Soal1](image/Praktikum-5-A12.drawio.png)
+
+## IP-List
+![Ss Soal1](image/IP-list.png)
+
 # Network Configuration & Route
 - Aura
 ```
@@ -506,3 +516,12 @@ iptables -A INPUT -p tcp --dport 22 -s 10.5.4.0/22 -m time --timestart 11:00 --t
 
 # Demo
 ## test routing and subneting
+
+### 1. Revolte to Sein
+![Ss Soal1](image/revolte-to-sein.png)
+
+### 2. Sein to Revolte
+![Ss Soal1](image/sein-to-revolte.png)
+
+### 3. LaubHills to GrobeForest
+![Ss Soal1](image/LaubHills-to-GrobeForest.png)
