@@ -1,0 +1,305 @@
+AURA (DHCP Relay, Edge Router)
+
+# Populate NAT iptables to enable NAT
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 10.5.0.0/16
+
+# Install Required Packages
+apt-get update
+apt-get install isc-dhcp-relay -y
+
+# Config DHCP Relay
+echo "
+net.ipv4.ip_forward=1
+" > /etc/sysctl.conf
+echo '
+SERVERS="10.5.0.22"
+INTERFACES="eth1 eth2"
+OPTIONS=""
+' > /etc/default/isc-dhcp-relay
+
+# Start DHCP Relay
+service isc-dhcp-relay start
+
+# Set DNS Server
+echo nameserver 10.5.0.18 > /etc/resolv.conf
+
+________________________________________________________
+RICHTER (DNS SERVER)
+
+# Set DNS Server
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+
+# Install Required Packages
+apt-get update
+apt-get install bind9 -y 
+
+# Prepare Directory
+mkdir -p /etc/bind/praktikum
+
+# Enable DNS Forwarder
+echo '
+options {
+  directory "/var/cache/bind";
+  forwarders {
+    192.168.122.1;
+  };
+  allow-query{any;};
+
+  listen-on-v6 { any; };
+};
+' > /etc/bind/named.conf.options
+
+service bind9 restart
+
+__________________________________
+HEITER (DHCP Relay)
+
+
+# Set DNS Server
+echo nameserver 10.5.0.18 > /etc/resolv.conf
+
+# Install Required Packages
+apt-get update
+apt-get install isc-dhcp-relay -y
+
+# Config DHCP Relay
+echo "
+net.ipv4.ip_forward=1
+" > /etc/sysctl.conf
+echo '
+SERVERS="10.5.0.22"
+INTERFACES="eth0 eth1 eth2"
+OPTIONS=""
+' > /etc/default/isc-dhcp-relay
+
+# Start DHCP Relay
+service isc-dhcp-relay start
+
+___________________________________________
+Frieren (DHCP Relay)
+
+
+# Set DNS Server
+echo nameserver 10.5.0.18 > /etc/resolv.conf
+
+# Install Required Packages
+apt-get update
+apt-get install isc-dhcp-relay -y
+
+# Config DHCP Relay
+echo "
+net.ipv4.ip_forward=1
+" > /etc/sysctl.conf
+echo '
+SERVERS="10.5.0.22"
+INTERFACES="eth0 eth1 eth2"
+OPTIONS=""
+' > /etc/default/isc-dhcp-relay
+
+# Start DHCP Relay
+service isc-dhcp-relay start
+
+_____________________________________________
+Himmel (DHCP Relay)
+
+# Set DNS Server
+echo nameserver 10.5.0.18 > /etc/resolv.conf
+
+# Install Required Packages
+apt-get update
+apt-get install isc-dhcp-relay -y
+
+# Config DHCP Relay
+echo "
+net.ipv4.ip_forward=1
+" > /etc/sysctl.conf
+echo '
+SERVERS="10.5.0.22"
+INTERFACES="eth0 eth1 eth2"
+OPTIONS=""
+' > /etc/default/isc-dhcp-relay
+
+# Start DHCP Relay
+service isc-dhcp-relay start
+
+________________________________________________
+FERN (DHCP Relay)
+
+# Set DNS Server
+echo nameserver 10.5.0.18 > /etc/resolv.conf
+
+# Install Required Packages
+apt-get update
+apt-get install isc-dhcp-relay -y
+
+# Config DHCP Relay
+echo "
+net.ipv4.ip_forward=1
+" > /etc/sysctl.conf
+echo '
+SERVERS="10.5.0.22"
+INTERFACES="eth0 eth1 eth2"
+OPTIONS=""
+' > /etc/default/isc-dhcp-relay
+
+# Start DHCP Relay
+service isc-dhcp-relay start
+
+_____________________________________________________
+REVOLTE (DHCP server)
+
+# Set DNS Server
+echo nameserver 10.5.0.18 > /etc/resolv.conf
+
+# Install Required Packages
+apt-get update
+apt-get install isc-dhcp-server --no-install-recommends -y
+
+# Set DHCP Interface
+echo '
+INTERFACESv4="eth0"
+INTERFACESv6=""
+' > /etc/default/isc-dhcp-server
+
+# Config DHCP Server
+echo '
+default-lease-time 600;
+max-lease-time 7200;
+
+ddns-update-style none;
+
+#A1
+subnet 10.5.0.0 netmask 255.255.255.252 {
+}
+
+#A2
+subnet 10.5.8.0 netmask 255.255.248.0 {
+    range 10.5.8.2 10.5.8.254;
+    option routers 10.5.8.1;
+    option broadcast-address 10.5.8.255;
+    default-lease-time 180;
+    max-lease-time 5760;
+}
+
+#A3
+subnet 10.5.0.4 netmask 255.255.255.252 {
+}
+
+#A4
+subnet 10.5.4.0 netmask 255.255.255.0 {
+    range 10.5.4.2 10.5.7.254;
+    option routers 10.5.4.1;
+    option broadcast-address 10.5.7.255;
+    default-lease-time 180;
+    max-lease-time 5760;
+}
+
+#A5
+subnet 10.5.0.8 netmask 255.255.255.252 {
+}
+
+#A6
+subnet 10.5.0.12 netmask 255.255.255.252 {
+}
+
+#A7
+subnet 10.5.2.0 netmask 255.255.254.0 {
+    range 10.5.2.2 10.5.2.254;
+    option routers 10.5.2.1;
+    option broadcast-address 10.5.2.255;
+    default-lease-time 180;
+    max-lease-time 5760;
+}
+
+#A8
+subnet 10.5.0.128 netmask 255.255.255.128 {
+    range 10.5.0.131 10.5.0.254;
+    option routers 10.5.0.129;
+    option broadcast-address 10.5.0.255;
+    default-lease-time 180;
+    max-lease-time 5760;
+}
+
+#A9
+subnet 10.5.0.16 netmask 255.255.255.252 {
+}
+
+#A10
+subnet 10.5.0.20 netmask 255.255.255.252{
+}
+' > /etc/dhcp/dhcpd.conf
+
+# Enable dhcp server
+service isc-dhcp-server restart
+
+_______________________________________________
+Sein (web server)
+
+# Set DNS Server
+echo nameserver 10.5.0.18 > /etc/resolv.conf
+
+# Install Required Packages
+apt-get update
+apt-get install netcat -y
+
+_______________________________________________
+Stark (Web Server)
+
+# Set DNS Server
+echo nameserver 10.5.0.18 > /etc/resolv.conf
+
+# Install Required Packages
+apt-get update
+apt-get install netcat -y
+
+
+___________________________________________________
+___________________________________________________
+JAWABAN SOAL
++++++++++++++++++++++++++++++++++++++++++++++++++++
+1. 
+# Flush NAT Table
+iptables -t nat -F
+
+# Set SNAT rule for NAT postrouting
+iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to-source $(ifconfig eth0 | awk -F ' *|:' '/inet addr/{print $4}')
+
+penjelasan :
+
+ip -4 addr show eth0: Menampilkan informasi alamat IP untuk antarmuka jaringan eth0.
+
+grep -oP '(?<=inet\s)\d+(\.\d+){3}': Menggunakan grep untuk mengambil alamat IP dari baris yang mengandung "inet" pada output sebelumnya.`
+
+iptables -t nat -A POSTROUTING: Menambahkan aturan ke chain POSTROUTING pada tabel nat.
+
+-o eth0: Menentukan antarmuka keluar (outgoing) sebagai eth0.
+
+-j SNAT: Menyatakan bahwa rules tersebut adalah Source Network Address Translation.
+
+--to-source $ETH0_IP: Menentukan alamat IP sumber untuk melakukan SNAT, menggunakan alamat IP yang telah diperoleh sebelumnya dari eth0.
+
+2. 
+iptables -F
+
+iptables -A INPUT -p icmp -j ACCEPT
+
+iptables -A INPUT -p tcp --dport 8080 -j ACCEPT
+
+iptables -A INPUT -p tcp -j DROP
+
+iptables -A INPUT -p udp -j DROP
+
+3. 
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+iptables -A INPUT -p icmp -m connlimit --connlimit-above 3 --connlimit-mask 0 -j DROP
+
+4.
+iptables -A INPUT -p tcp --dport 22 -s 192.177.4.0/22 -j ACCEPT
+
+iptables -A INPUT -p tcp --dport 22 -j DROP
+
+6. 
+iptables -A INPUT -p tcp --dport 22 -s 10.5.4.0/22 -m time --timestart 12:00 --timestop 13:00 --weekdays Mon,Tue,Wed,Thu -j DROP
+
+iptables -A INPUT -p tcp --dport 22 -s 10.5.4.0/22 -m time --timestart 11:00 --timestop 13:00 --weekdays Fri -j DROP
